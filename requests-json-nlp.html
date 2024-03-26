@@ -7856,7 +7856,7 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span> <span class="c1">#this will get the poem if given the author and title. Then save it to a certain filename</span>
@@ -7872,6 +7872,9 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
 <span class="c1">#fetch poem</span>
 
 <span class="n">fetch_poem</span><span class="p">(</span><span class="s1">'William Shakespear'</span><span class="p">,</span> <span class="s1">'Spring'</span><span class="p">,</span> <span class="s1">'Shakespear_Spring'</span><span class="p">)</span>
+<span class="n">fetch_poem</span><span class="p">(</span><span class="s1">'Ralph Waldo Emerson'</span><span class="p">,</span> <span class="s1">'Ode to Beauty'</span><span class="p">,</span> <span class="s1">'Emerson_OdeToBeauty'</span><span class="p">)</span>
+<span class="n">fetch_poem</span><span class="p">(</span><span class="s1">'Edgar Allan Poe'</span><span class="p">,</span> <span class="s1">'The Sleeper'</span><span class="p">,</span> <span class="s1">'Poe_TheSleeper'</span><span class="p">)</span>
+<span class="n">fetch_poem</span><span class="p">(</span><span class="s1">'Edgar Allan Poe'</span><span class="p">,</span> <span class="s1">'The City in The Sea'</span><span class="p">,</span> <span class="s1">'Poe_TheCityInTheSea'</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -7885,6 +7888,9 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>Saved file Shakespear_Spring
+Saved file Emerson_OdeToBeauty
+Saved file Poe_TheSleeper
+Saved file Poe_TheCityInTheSea
 </pre>
 </div>
 </div>
@@ -7908,15 +7914,13 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [14]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
-<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">poem_sentiment</span> <span class="p">(</span><span class="n">author</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
-
-    <span class="n">URL</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'https://poetrydb.org/author,title/</span><span class="si">{</span><span class="n">author</span><span class="si">}</span><span class="s1">;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1">'</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">URL</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">poem</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'lines'</span><span class="p">])</span>
-
+<div class="highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">poem_sentiment</span> <span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="n">poem</span> <span class="o">=</span> <span class="s1">'</span><span class="se">\n</span><span class="s1">'</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">'lines'</span><span class="p">])</span>
     <span class="c1">#Loads English Tokenizer</span>
     <span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">'en_core_web_sm'</span><span class="p">)</span>
     <span class="n">nlp</span><span class="o">.</span><span class="n">add_pipe</span><span class="p">(</span><span class="s1">'spacytextblob'</span><span class="p">)</span>
@@ -7928,14 +7932,15 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
     <span class="n">polarity_score</span> <span class="o">=</span> <span class="n">doc</span><span class="o">.</span><span class="n">_</span><span class="o">.</span><span class="n">polarity</span>
 
     <span class="nb">print</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span><span class="s1">'*****************************************************************'</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'the polarity score for</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="n">polarity_score</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">'the polarity score for</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="s1"> is </span><span class="si">{</span><span class="n">polarity_score</span><span class="si">}</span><span class="s1">'</span><span class="p">)</span>
 
 <span class="c1">#new poem sentiment analysis</span>
 
-<span class="n">poem_sentiment</span><span class="p">(</span><span class="s1">'Ralph Waldo Emerson'</span><span class="p">,</span><span class="s1">'Ode to Beauty'</span><span class="p">)</span>
+<span class="n">poem_sentiment</span><span class="p">(</span><span class="s1">'Emerson_OdeToBeauty'</span><span class="p">)</span>
+<span class="n">poem_sentiment</span><span class="p">(</span><span class="s1">'Poe_TheCityInTheSea'</span><span class="p">)</span>
+<span class="n">poem_sentiment</span><span class="p">(</span><span class="s1">'Poe_TheSleeper'</span><span class="p">)</span>
+<span class="n">poem_sentiment</span><span class="p">(</span><span class="s1">'Shakespear_Spring'</span><span class="p">)</span>
     
 </pre></div>
 </div>
@@ -7950,111 +7955,17 @@ the polarity score is 0.0676926406926407, Since this score is 0.0676926406926407
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain" tabindex="0">
 <pre>
-Who gave thee, O Beauty!
-The keys of this breast,
-Too credulous lover
-Of blest and unblest?
-Say when in lapsed ages
-Thee knew I of old;
-Or what was the service
-For which I was sold?
-When first my eyes saw thee,
-I found me thy thrall,
-By magical drawings,
-Sweet tyrant of all!
-I drank at thy fountain
-False waters of thirst;
-Thou intimate stranger,
-Thou latest and first!
-Thy dangerous glances
-Make women of men;
-New-born we are melting
-Into nature again.
-Lavish, lavish promiser,
-Nigh persuading gods to err,
-Guest of million painted forms
-Which in turn thy glory warms,
-The frailest leaf, the mossy bark,
-The acorn's cup, the raindrop's arc,
-The swinging spider's silver line,
-The ruby of the drop of wine,
-The shining pebble of the pond,
-Thou inscribest with a bond
-In thy momentary play
-Would bankrupt Nature to repay.
-
-Ah! what avails it
-To hide or to shun
-Whom the Infinite One
-Hath granted his throne?
-The heaven high over
-Is the deep's lover,
-The sun and sea
-Informed by thee,
-Before me run,
-And draw me on,
-Yet fly me still,
-As Fate refuses
-To me the heart Fate for me chooses,
-Is it that my opulent soul
-Was mingled from the generous whole,
-Sea valleys and the deep of skies
-Furnished several supplies,
-And the sands whereof I'm made
-Draw me to them self-betrayed?
-I turn the proud portfolios
-Which hold the grand designs
-Of Salvator, of Guercino,
-And Piranesi's lines.
-I hear the lofty Pæans
-Of the masters of the shell,
-Who heard the starry music,
-And recount the numbers well:
-Olympian bards who sung
-Divine Ideas below,
-Which always find us young,
-And always keep us so.
-Oft in streets or humblest places
-I detect far wandered graces,
-Which from Eden wide astray
-In lowly homes have lost their way.
-
-Thee gliding through the sea of form,
-Like the lightning through the storm,
-Somewhat not to be possessed,
-Somewhat not to be caressed,
-No feet so fleet could ever find,
-No perfect form could ever bind.
-Thou eternal fugitive
-Hovering over all that live,
-Quick and skilful to inspire
-Sweet extravagant desire,
-Starry space and lily bell
-Filling with thy roseate smell,
-Wilt not give the lips to taste
-Of the nectar which thou hast.
-
-All that's good and great with thee
-Stands in deep conspiracy.
-Thou hast bribed the dark and lonely
-To report thy features only,
-And the cold and purple morning
-Itself with thoughts of thee adorning,
-The leafy dell, the city mart,
-Equal trophies of thine art,
-E'en the flowing azure air
-Thou hast touched for my despair,
-And if I languish into dreams,
-Again I meet the ardent beams.
-Queen of things! I dare not die
-In Being's deeps past ear and eye,
-Lest there I find the same deceiver,
-And be the sport of Fate forever.
-Dread power, but dear! if God thou be,
-Unmake me quite, or give thyself to me.
+*****************************************************************
+the polarity score forEmerson_OdeToBeauty is 0.1265627705627706
 
 *****************************************************************
-the polarity score forOde to Beauty is 0.1265627705627706
+the polarity score forPoe_TheCityInTheSea is -0.01367337164750958
+
+*****************************************************************
+the polarity score forPoe_TheSleeper is 0.13499007936507934
+
+*****************************************************************
+the polarity score forShakespear_Spring is -0.14423076923076925
 </pre>
 </div>
 </div>
@@ -8068,7 +7979,40 @@ the polarity score forOde to Beauty is 0.1265627705627706
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h2 style="color:green"> Question 4 cont.</h2>
-<p> The polarity score for this final poem was also close to neutral. However, it was slightly more positive than the first. After reading the poems I feel that both are pretty acurate. I do not get any strong positive or negative vibes from either poems. I would also like to note that I am not an expert on poetry. So my interpretation is my opinion and based solely on my feelings while reading the poems.</p>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Author</th>
+<th>Polarity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>"Ode To Beauty"</td>
+<td>Emerson</td>
+<td>0.1266</td>
+</tr>
+<tr>
+<td>"The City in The Sea"</td>
+<td>Poe</td>
+<td>-0.0137</td>
+</tr>
+<tr>
+<td>"The Sleeper"</td>
+<td>Poe</td>
+<td>0.1351</td>
+</tr>
+<tr>
+<td>"Spring"</td>
+<td>Shakespear</td>
+<td>-0.1442</td>
+</tr>
+</tbody>
+</table>
+<p>Most of the polarity scores for the poems that I chose where fairly neutral. The results had 2 poems leaning slightly negative and 2 leaning slightly positive. For the most part I agree with all of the results except Shakespears poem "Spring". In my opinion this poem should be on the slightly positive side. I think that this sentiment was incorrect for this poem because it contained the words "fear" and "unpleasing". These words are normally interpreted with a negative sentiment, and might be what lead to the slight negative polarity result with this poem.
+
+<p>Other than that I think that the other were pretty accurate. I am no poetry expert. So there could be some error with my interpretation aswell. </p></p>
 </div>
 </div>
 </div>
@@ -8077,7 +8021,7 @@ the polarity score forOde to Beauty is 0.1265627705627706
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [ ]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="o">!</span>jupyter<span class="w"> </span>nbconvert<span class="w"> </span>--to<span class="w"> </span>html<span class="w"> </span>requests-json-nlp.ipynb
@@ -8094,7 +8038,7 @@ the polarity score forOde to Beauty is 0.1265627705627706
 <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="application/vnd.jupyter.stderr" tabindex="0">
 <pre>[NbConvertApp] Converting notebook requests-json-nlp.ipynb to html
-[NbConvertApp] Writing 298268 bytes to requests-json-nlp.html
+[NbConvertApp] Writing 298568 bytes to requests-json-nlp.html
 </pre>
 </div>
 </div>
